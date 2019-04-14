@@ -6,14 +6,20 @@ import Scalar.Scalar;
 
 public class main {
 	public static void main(String[]args) {
-		PolyTerm pt=new PolyTerm(new RealScalar(1.2), 2);
-		Scalar r=new RealScalar(172.242111);
-		System.out.println(r.toString());
-		PolyTerm ptr= pt.add(new PolyTerm(r,2));
-		System.out.println(ptr.toString());
-		ptr=pt.mul(new PolyTerm(r,2));
-		System.out.println(ptr.toString());
+		PolyTerm pt=new PolyTerm(new RealScalar(1.2), 0);
+		System.out.println(pt.toString());
+		pt=pt.derivate();
+		System.out.println(pt.toString());
+		pt=pt.derivate();
+		System.out.println(pt.toString());
 
-		
+		PolyTerm ptr=new PolyTerm(new RationalScalar(1,2), 1);
+		System.out.println(ptr.toString());
+		ptr=ptr.derivate();
+		System.out.println(ptr.toString());
+		ptr=ptr.derivate();
+		System.out.println(ptr.toString());
+		ptr=ptr.derivate();
+		System.out.println(ptr.toString());
 	}
 }

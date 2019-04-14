@@ -25,7 +25,11 @@ public class RealScalar implements Scalar{
 		RealScalar scalar=(RealScalar)s;
 		num=num*scalar.getNum();
 		return this;	
-		} 
+	}
+	
+	public Scalar mul(int num) {
+		return new RealScalar(num*this.num);
+	}
 	
 	public Scalar pow(int exponent) {
 		num=Math.pow(num, exponent);

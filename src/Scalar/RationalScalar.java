@@ -41,6 +41,12 @@ public class RationalScalar implements Scalar{
 		return this;
 	}
 	
+	public Scalar mul(int num) {
+		Scalar pos=new RationalScalar(numerator*num, this.divisor);
+		((RationalScalar) pos).gcd();
+		return pos;
+	}
+	
 	public Scalar mul(Scalar s) {
 		if(!(s instanceof RationalScalar))
 			throw new RuntimeException("Not a rational Scalar");
@@ -49,7 +55,7 @@ public class RationalScalar implements Scalar{
 		divisor=this.divisor*scalar.divisor;
 		gcd();
 		return this;	
-		} 
+	} 
 	
 	public Scalar pow(int exponent) {
 		for(int i=0;i<exponent;i++) {

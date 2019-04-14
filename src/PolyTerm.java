@@ -7,6 +7,8 @@ public class PolyTerm {
 	private int exponent;
 	
 	public PolyTerm(Scalar coefficient, int exponent) {
+		if(exponent<0)
+			throw new IllegalArgumentException("input wrong! exponent must be 0 or more");
 		this.coefficient=coefficient;
 		this.exponent=exponent;
 	}
@@ -30,9 +32,12 @@ public class PolyTerm {
 		return (scalar.pow(this.exponent)).mul(this.coefficient);
 	}
 	public PolyTerm derivate() {
-		Scalar plus1=this.coefficient.pow(0);//the number 1 at Scalar from the same type
-		Scalar pos=this.coefficient.sum(plus1);
-		return new PolyTerm(pos,this.exponent-1);
+		Scalar pos=this.coefficient.mul(this.exponent);
+		if(this.exponent>0)
+			return new PolyTerm(pos,this.exponent-1);
+		if(this.exponent>=0)
+			return new PolyTerm(pos,this.exponent);
+		throw new IllegalArgumentException("the exponent wrong, less than 0");
 	}
 	public boolean equals(PolyTerm pt) {
 		return this.equals(pt);
@@ -50,6 +55,8 @@ public class PolyTerm {
 		this.coefficient=coefficient;
 	}
 	public String toString() {
-		return this.coefficient.toString()+"X^"+this.exponent;
+		if(this.exponent>=1)
+			return this.coefficient.toString()+"X^"+this.exponent;
+		return this.coefficient.toString();
 	}
 }

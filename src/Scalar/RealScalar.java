@@ -4,8 +4,8 @@ public class RealScalar implements Scalar{
 
 	private double num;
 	
-	public RealScalar(Scalar s) {
-
+	public RealScalar(double num) {
+		this.num=num;
 	}
 
 	public double getNum() { return num; }

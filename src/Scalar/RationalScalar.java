@@ -10,6 +10,7 @@ public class RationalScalar implements Scalar{
 		    throw new IllegalArgumentException("You can't divide by zero");
 		this.numerator=numerator;
 		this.divisor=divisor;
+		this.gcd();
 	}
 	
 	public int getNumerator() { return numerator; }

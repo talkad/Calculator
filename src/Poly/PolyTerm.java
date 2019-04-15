@@ -6,15 +6,18 @@ import Scalar.Scalar;
 public class PolyTerm {
 	private Scalar coefficient;
 	private int exponent;
+	private boolean isRational; //true- it is a rational scalar. real scalar otherwise.
 	
-	public PolyTerm(Scalar coefficient, int exponent) {
+	public PolyTerm(Scalar coefficient, int exponent, boolean isRational) {
 		if(exponent<0)
 			throw new IllegalArgumentException("input wrong! exponent should be non-negative");
 		this.coefficient=coefficient;
 		this.exponent=exponent;
+		this.isRational=isRational;
 	}
 	
-	public PolyTerm(String polyterm) {
+	public PolyTerm(String polyterm, boolean isRational) {
+		this.isRational=isRational;
 		if(polyterm==null)
 			throw new IllegalArgumentException("polyterm cannot be null");
 		String coefficient="";
@@ -31,8 +34,9 @@ public class PolyTerm {
 		}
 		else
 			this.exponent=0;
+		
+		String numerator="", divisor="";
 		if(coefficient.contains("/")) {
-			String numerator="", divisor="";
 			index=0;
 			while(coefficient.charAt(index)!='/')
 			{
@@ -44,16 +48,31 @@ public class PolyTerm {
 				divisor+=coefficient.charAt(index);
 				index++;
 			}
+		}
+
+		if(isRational) {
+			if(numerator.length()==0)
+				numerator="1";
+			if(divisor.length()==0)
+				divisor="1";
 			this.coefficient=new RationalScalar(Integer.parseInt(numerator), Integer.parseInt(divisor));
 		}
-	else {
-			this.coefficient=new RealScalar(Double.parseDouble(coefficient));
+		
+		else {
+			if(coefficient.length()==0 || coefficient.charAt(0)=='+') 
+				coefficient="1";
+			else if(coefficient.charAt(0)=='-')
+				coefficient="-1";
+			
+			if(coefficient.contains("/"))
+				this.coefficient=new RealScalar(Double.parseDouble(numerator)/Double.parseDouble(divisor));
+			else
+				this.coefficient=new RealScalar(Double.parseDouble(coefficient));
 		}
 	}
 	
-	
-	public boolean canAdd(PolyTerm pt) {
-		if(pt.exponent==this.exponent)
+		public boolean canAdd(PolyTerm pt) {
+		if(pt.exponent==this.exponent && isRational==pt.getIsRational())
 			return true;
 		return false;
 	}
@@ -62,12 +81,12 @@ public class PolyTerm {
 		if(!this.canAdd(pt))
 			throw new IllegalArgumentException("cannot add this polyterm");
 		Scalar pos=	this.coefficient.add(pt.getCoefficient());
-		return new PolyTerm(pos, this.exponent);
+		return new PolyTerm(pos, this.exponent, isRational);
 	}
 	
 	public PolyTerm mul(PolyTerm pt) {
 		Scalar pos=	this.coefficient.mul(pt.getCoefficient());
-		return new PolyTerm(pos, this.exponent+pt.getExponent());
+		return new PolyTerm(pos, this.exponent+pt.getExponent(), isRational);
 	}
 	
 	public Scalar evaluate(Scalar scalar) {
@@ -77,14 +96,19 @@ public class PolyTerm {
 	public PolyTerm derivate() {
 		Scalar pos=this.coefficient.mul(this.exponent);
 		if(this.exponent>0)
-			return new PolyTerm(pos,this.exponent-1);
+			return new PolyTerm(pos,this.exponent-1, isRational);
 		if(this.exponent>=0)
-			return new PolyTerm(pos,this.exponent);
+			return new PolyTerm(pos,this.exponent, isRational);
 		throw new IllegalArgumentException("the exponent wrong, less than 0");
 	}
 	
 	public boolean equals(PolyTerm pt) {
-		return this.equals(pt);
+		boolean isEqual=false;
+		if(pt.getIsRational()==this.isRational) {
+			if(pt.getCoefficient().equals(coefficient) && pt.getExponent()==exponent)
+				isEqual=true;
+		}
+		return isEqual;
 	}
 	
 	public int getExponent() {
@@ -99,10 +123,14 @@ public class PolyTerm {
 	public void setCoefficient(Scalar coefficient) {
 		this.coefficient=coefficient;
 	}
+	public boolean getIsRational() {
+		return isRational;
+	}
 	
 	public String toString() {
-		if(this.exponent>=1)
-			return this.coefficient.toString()+"X^"+this.exponent;
+		String output="";
+		if(this.exponent>=1) 
+			return this.coefficient.toString()+"x^"+this.exponent;
 		return this.coefficient.toString();
 	}
 }

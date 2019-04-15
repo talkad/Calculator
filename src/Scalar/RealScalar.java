@@ -1,5 +1,7 @@
 package Scalar;
 
+import java.text.DecimalFormat;
+
 public class RealScalar implements Scalar{
 
 	private double num;
@@ -53,10 +55,16 @@ public class RealScalar implements Scalar{
 	} 
 	
 	public String toString() {
-		String pos=String.valueOf(num);
-		String temp=pos.substring(pos.indexOf('.'));
-		if(temp.length()!=-1 && temp.length()>4 && pos.length()>4)
-			return pos.substring(0, pos.indexOf('.'))+ pos.substring(pos.indexOf('.'), pos.indexOf('.')+4);
-		return pos;
+//		String pos=String.valueOf(num);
+//		String temp=pos.substring(pos.indexOf('.'));
+//		if(temp.length()!=-1 && temp.length()>4 && pos.length()>4)
+//			return pos.substring(0, pos.indexOf('.'))+ pos.substring(pos.indexOf('.'), pos.indexOf('.')+4);
+		DecimalFormat numberFormat = new DecimalFormat("#.###");
+		String output=numberFormat.format(num);
+		if(output.equals("1"))
+			return "";
+		if(output.equals("-1"))
+			return "-";
+		return output;			
 	}
 }

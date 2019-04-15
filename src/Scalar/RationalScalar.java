@@ -8,9 +8,9 @@ public class RationalScalar implements Scalar{
 	public RationalScalar(int numerator, int divisor) {
 		if (divisor == 0) 
 		    throw new IllegalArgumentException("You can't divide by zero");
-		this.numerator=numerator;
-		this.divisor=divisor;
-		this.gcd();
+		int gcd=getGCD(numerator,divisor);
+		this.numerator=numerator/gcd;
+		this.divisor=divisor/gcd;
 	}
 	
 	public int getNumerator() { return numerator; }
@@ -18,57 +18,58 @@ public class RationalScalar implements Scalar{
 	public int getDivisor() { return divisor; }
 	
 	//find the great common divisor and edit the rational scalar respectively
-	private void gcd() {
-	    int m = numerator;
-	    int n = divisor;
+	private int getGCD(int a,int b) {
+	    int m = a;
+	    int n = b;
 	    int r = m%n;
 	    while (r != 0) {
 			m=n;
 	        n=r; 
 	        r = m%n;
 	    }
-	    numerator=numerator/n;
-	    divisor=divisor/n;
+	    return n;
 	}
 	
-	public Scalar sum(Scalar s) {
+	public Scalar add(Scalar s) {
+		int a,b;
 		if(!(s instanceof RationalScalar))
 			throw new RuntimeException("Not a rational Scalar");
 		RationalScalar scalar=(RationalScalar)s;
-		numerator=(numerator*scalar.divisor)+(divisor*scalar.numerator);
-		divisor=this.divisor*scalar.divisor;
-		gcd();
-		return this;
+		a=(numerator*scalar.getDivisor())+(divisor*scalar.getNumerator());
+		b=this.divisor*scalar.getDivisor();
+		int gcd=getGCD(a, b);
+		return new RationalScalar(a/gcd, b/gcd);
 	}
 	
 	public Scalar mul(int num) {
-		Scalar pos=new RationalScalar(numerator*num, this.divisor);
-		((RationalScalar) pos).gcd();
-		return pos;
+		Scalar pos=new RationalScalar(num, 1);
+		return mul(pos);
 	}
 	
 	public Scalar mul(Scalar s) {
+		int a,b;
 		if(!(s instanceof RationalScalar))
 			throw new RuntimeException("Not a rational Scalar");
 		RationalScalar scalar=(RationalScalar)s;
-		numerator=numerator*scalar.divisor;
-		divisor=this.divisor*scalar.divisor;
-		gcd();
-		return this;	
-	} 
+		a=numerator*scalar.getNumerator();
+		b=this.divisor*scalar.getDivisor();
+		int gcd=getGCD(a, b);
+		return new RationalScalar(a/gcd, b/gcd);
+		} 
 	
 	public Scalar pow(int exponent) {
+		int a=1,b=1;
 		for(int i=0;i<exponent;i++) {
-			numerator*=numerator;
-			divisor*=divisor;
+			a*=numerator;
+			b*=divisor;
 		}
-		gcd();
-		return this;
-	} 
+		int gcd=getGCD(a, b);
+		return new RationalScalar(a/gcd, b/gcd);
+		} 
 	
-	public Scalar neg() {
-		numerator*=(-1);
-		return this;
+	public Scalar neg() {		
+		int a=(-1)*numerator;
+		return new RationalScalar(a, getDivisor());
 	} 
 	
 	public boolean equals(Scalar s) {

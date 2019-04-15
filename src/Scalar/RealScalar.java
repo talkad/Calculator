@@ -11,34 +11,38 @@ public class RealScalar implements Scalar{
 	public double getNum() { return num; }
 		
 	
-	public Scalar sum(Scalar s) {
+	public Scalar add(Scalar s) {
+		double n;
 		if(!(s instanceof RealScalar))
 			throw new RuntimeException("Not a real Scalar");
 		RealScalar scalar=(RealScalar)s;
-		num=num+scalar.getNum();
-		return this;
+		n=num+scalar.getNum();
+		return new RealScalar(n);
 	}
 	
 	public Scalar mul(Scalar s) {
+		double n;
 		if(!(s instanceof RealScalar))
 			throw new RuntimeException("Not a real Scalar");
 		RealScalar scalar=(RealScalar)s;
-		num=num*scalar.getNum();
-		return this;	
+		n=num*scalar.getNum();
+		return new RealScalar(n);
 	}
 	
 	public Scalar mul(int num) {
-		return new RealScalar(num*this.num);
+		return new RealScalar(num*getNum());
 	}
 	
 	public Scalar pow(int exponent) {
-		num=Math.pow(num, exponent);
-		return this;
+		double n;
+		n=Math.pow(num, exponent);
+		return new RealScalar(n);
 	} 
 	
 	public Scalar neg() {
-		num*=(-1);
-		return this;
+		double n;
+		n=(-1)*getNum();
+		return new RealScalar(n);
 	} 
 	
 	public boolean equals(Scalar s) {

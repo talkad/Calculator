@@ -1,4 +1,6 @@
 package Poly;
+import Scalar.RationalScalar;
+import Scalar.RealScalar;
 import Scalar.Scalar;
 
 public class PolyTerm {
@@ -11,6 +13,44 @@ public class PolyTerm {
 		this.coefficient=coefficient;
 		this.exponent=exponent;
 	}
+	
+	public PolyTerm(String polyterm) {
+		if(polyterm==null)
+			throw new IllegalArgumentException("polyterm cannot be null");
+		String coefficient="";
+		int index=0;
+		while(index<polyterm.length() && polyterm.charAt(index)!='x' ) {
+			coefficient+=polyterm.charAt(index);
+			index++;
+		}
+		
+		int exp_index=polyterm.indexOf('^');
+		if(exp_index!=-1) {
+			String exponent=polyterm.substring(exp_index+1, polyterm.length());
+			this.exponent=Integer.parseInt(exponent);
+		}
+		else
+			this.exponent=0;
+		if(coefficient.contains("/")) {
+			String numerator="", divisor="";
+			index=0;
+			while(coefficient.charAt(index)!='/')
+			{
+				numerator+=coefficient.charAt(index);
+				index++;
+			}
+			index++;
+			while(index!=coefficient.length()) {
+				divisor+=coefficient.charAt(index);
+				index++;
+			}
+			this.coefficient=new RationalScalar(Integer.parseInt(numerator), Integer.parseInt(divisor));
+		}
+	else {
+			this.coefficient=new RealScalar(Double.parseDouble(coefficient));
+		}
+	}
+	
 	
 	public boolean canAdd(PolyTerm pt) {
 		if(pt.exponent==this.exponent)

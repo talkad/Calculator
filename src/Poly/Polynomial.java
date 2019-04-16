@@ -4,6 +4,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import Scalar.RationalScalar;
+import Scalar.RealScalar;
+import Scalar.Scalar;
+
 public class Polynomial {
 	
 	private List<PolyTerm> list;
@@ -64,6 +68,49 @@ public class Polynomial {
 		return pos;
 	}
 	
+	public Polynomial mul(Polynomial poly) {
+		if((poly.isRational && !this.isRational) || (!poly.isRational && this.isRational))
+			throw new IllegalArgumentException("cannot add two different objects");
+		Polynomial pos=new Polynomial("",this.isRational);
+		Iterator<PolyTerm> it1;		
+		Iterator<PolyTerm> it2=poly.list.iterator();
+		while(it2.hasNext()) {
+			PolyTerm current2=it2.next();
+			it1=this.list.iterator();	
+			while(it1.hasNext()) {
+				PolyTerm current1=it1.next();
+				pos.list.add(current1.mul(current2));
+			}	
+		}
+		return pos;
+	}
+	
+	public Scalar evaluate(Scalar scalar) {
+		Iterator<PolyTerm> it1=this.list.iterator();
+		if(this.isRational) {
+			Scalar ans=new RationalScalar(0, 1);
+			while(it1.hasNext()) {
+				ans=ans.add(it1.next().evaluate(scalar));
+			}
+			return ans;
+		}
+		else {
+			Scalar ans=new RealScalar(0);
+			while(it1.hasNext()) {
+				ans=ans.add(it1.next().evaluate(scalar));
+			}
+			return ans;
+		}
+		
+	}
+	
+	public Polynomial derivate() {
+		Polynomial pos=new Polynomial("", this.isRational);
+		Iterator<PolyTerm> it1=this.list.iterator();
+		while(it1.hasNext()) 
+			pos.list.add(it1.next().derivate());
+		return pos;
+	}
 	public List<PolyTerm> getList(){ return this.list; }
 
 	public boolean getIsRational() {return isRational; }
@@ -76,12 +123,12 @@ public class Polynomial {
 		PolyTerm current;
 		while(it.hasNext()) {
 			current=it.next();
-			if(current.toString().charAt(0)=='-')
-				output+=current.toString();
-			else
-				output+="+"+current.toString();
-			
-			counter++;
+			if(current.toString().charAt(0)!='0') {
+				if(current.toString().charAt(0)=='-')
+					output+=current.toString();
+				else
+					output+="+"+current.toString();
+			}
 		}
 		if(output.charAt(0)=='+')
 			return output.substring(1);

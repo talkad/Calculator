@@ -13,9 +13,10 @@ public class RationalScalar implements Scalar{
 		this.divisor=divisor/gcd;
 	}
 	
-	public int getNumerator() { return numerator; }
-	
+	public int getNumerator() { return numerator; }	
 	public int getDivisor() { return divisor; }
+	public void setNumerator(int a) { numerator=a; }	
+	public void setDivisor(int b) { divisor=b; }
 	
 	//find the great common divisor and edit the rational scalar respectively
 	private int getGCD(int a,int b) {

@@ -132,6 +132,9 @@ public class PolyTerm implements Comparable<PolyTerm>{
 	public boolean getIsRational() {
 		return isRational;
 	}
+	public void setIsRational(boolean rational) {
+		isRational=rational;
+	}
 	
 	public String toString() {
 		if(this.exponent>=1 && !coefficient.toString().equals("1")) 

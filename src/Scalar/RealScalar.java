@@ -11,7 +11,7 @@ public class RealScalar implements Scalar{
 	}
 
 	public double getNum() { return num; }
-		
+	public void setNum(double num) { this.num=num;}		
 	
 	public Scalar add(Scalar s) {
 		double n;

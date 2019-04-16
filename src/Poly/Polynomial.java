@@ -68,6 +68,31 @@ public class Polynomial {
 		return pos;
 	}
 	
+	private void addPolyTerm(PolyTerm pt) {
+		Polynomial new_poly=new Polynomial(this);
+		Iterator<PolyTerm> it=new_poly.getList().iterator();
+		boolean inserted=false;
+		while(it.hasNext()) {
+			PolyTerm p=it.next();
+			if(pt.getExponent()==p.getExponent()) {
+				this.list.remove(p);
+				this.list.add(p.add(pt));
+				inserted=true;
+			}
+		}
+		if(!inserted)
+			this.list.add(pt);
+	}
+	
+	private Polynomial unite(Polynomial poly) {
+		Polynomial output=new Polynomial("",poly.getIsRational());
+		Iterator<PolyTerm> it=poly.getList().iterator();
+		while(it.hasNext()) {
+			output.addPolyTerm(it.next());
+		}
+		return output;
+	}
+	
 	public Polynomial mul(Polynomial poly) {
 		if((poly.isRational && !this.isRational) || (!poly.isRational && this.isRational))
 			throw new IllegalArgumentException("cannot add two different objects");
@@ -82,7 +107,7 @@ public class Polynomial {
 				pos.list.add(current1.mul(current2));
 			}	
 		}
-		return pos;
+		return unite(pos);
 	}
 	
 	public Scalar evaluate(Scalar scalar) {
@@ -125,10 +150,11 @@ public class Polynomial {
 		}
 		return true;
 	}
+	
 	public List<PolyTerm> getList(){ return this.list; }
-
 	public boolean getIsRational() {return isRational; }
-
+	public void setList(List<PolyTerm> list){ this.list=list; }
+	public void setIsRational(boolean rational) {isRational=rational; }
 	
 	public String toString() {
 		Collections.sort(list);

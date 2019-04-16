@@ -59,9 +59,9 @@ public class PolyTerm {
 		}
 		
 		else {
-			if(coefficient.length()==0 || coefficient.charAt(0)=='+') 
+			if(coefficient.length()==0 || coefficient.charAt(coefficient.length()-1)=='+') 
 				coefficient="1";
-			else if(coefficient.charAt(0)=='-')
+			else if(coefficient.charAt(coefficient.length()-1)=='-')
 				coefficient="-1";
 			
 			if(coefficient.contains("/"))

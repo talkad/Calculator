@@ -23,7 +23,6 @@ public class Polynomial {
 				i=0;
 			}
 			else if(i==polynom.length()-1){
-				currentPoly=polynom.substring(0, i);
 				currentPoly=polynom.substring(0, i+1);
 				PolyTerm poly=new PolyTerm(currentPoly,isRational);
 				list.add(poly);
@@ -39,10 +38,10 @@ public class Polynomial {
 			list.add(it.next());
 	}
 			
-		
-	public boolean getIsRational() {return isRational; }
-	
-	public Polynomial add(Polynomial poly) { //still not working for all the cases
+			
+	public Polynomial add(Polynomial poly) {
+		if((poly.isRational && !this.isRational) || (!poly.isRational && this.isRational))
+			throw new IllegalArgumentException("cannot add two different objects");
 		Polynomial pos=new Polynomial(this);
 		Iterator<PolyTerm> it1;		
 		Iterator<PolyTerm> it2=poly.list.iterator();
@@ -64,18 +63,26 @@ public class Polynomial {
 		return pos;
 	}
 	
+	public List<PolyTerm> getList(){ return this.list; }
+
+	public boolean getIsRational() {return isRational; }
+
+	
 	public String toString() {
 		Iterator<PolyTerm> it=this.list.iterator();
 		String output="";
-		PolyTerm term;
-		int count=0;
+		PolyTerm current;
 		while(it.hasNext()) {
-			term=it.next();
-			if(count>0 && term.toString().charAt(0)!='-')
-				output+="+";
-			output+=term;
-			count++;
+			current=it.next();
+			if(current.toString().charAt(0)!='0') {
+				if(current.toString().charAt(0)=='-')
+					output=output+current.toString();
+				else
+					output=output+"+"+current.toString();
+			}
 		}
+		if(output.charAt(0)=='+')
+			return output.substring(1);
 		return output;
 	}
 }

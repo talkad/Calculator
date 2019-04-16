@@ -24,10 +24,11 @@ public class main {
 //		ptr=ptr.derivate();
 //		System.out.println(ptr.toString());
 		
-		Polynomial p1=new Polynomial("x^2+x^4+3",false);
-		Polynomial p2=new Polynomial("x^2+5",false);
-
-		System.out.println(p2.add(p1));
+		Polynomial p1=new Polynomial("1/2x^2-x^4+5/1",true);
+		Polynomial p2=new Polynomial("-1/1x^2+x^4",true);
+		System.out.println(p1);
+		System.out.println(p2);
+		System.out.println(p1.add(p2));
 
 
 	}

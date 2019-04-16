@@ -83,6 +83,8 @@ public class RationalScalar implements Scalar{
 		if(divisor==1) {
 			if(numerator==1)
 				return "";
+			else if(numerator==-1)
+				return "-";
 			else
 				return numerator+"";
 		}

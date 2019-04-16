@@ -26,7 +26,7 @@ public class PolyTerm {
 			coefficient+=polyterm.charAt(index);
 			index++;
 		}
-		
+
 		int exp_index=polyterm.indexOf('^');
 		if(exp_index!=-1) {
 			String exponent=polyterm.substring(exp_index+1, polyterm.length());
@@ -51,6 +51,12 @@ public class PolyTerm {
 		}
 
 		if(isRational) {
+			if(!coefficient.contains("/"))
+				numerator=coefficient;
+			if(coefficient.equals("-"))
+				numerator="-1";
+			if(coefficient.equals("+"))
+				numerator="1";
 			if(numerator.length()==0)
 				numerator="1";
 			if(divisor.length()==0)
@@ -128,7 +134,6 @@ public class PolyTerm {
 	}
 	
 	public String toString() {
-		String output="";
 		if(this.exponent>=1) 
 			return this.coefficient.toString()+"x^"+this.exponent;
 		return this.coefficient.toString();

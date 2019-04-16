@@ -43,8 +43,12 @@ public class main {
 		Scalar scalar2=new RationalScalar(6,2);
 		System.out.println(p5.evaluate(scalar2));
 		
-		Polynomial p6=new Polynomial("-7x^1+2x^2+x^3+1",false);
+		Polynomial p6=new Polynomial("-7/2x^1+2/3x^2+x^3+1",true);
 		System.out.println(p6.derivate());
+		
+		Polynomial p7=new Polynomial("x^3+1",false);
+		Polynomial p8=new Polynomial("1+x^3",false);
+		System.out.println(p7.equals(p8));
 
 
 

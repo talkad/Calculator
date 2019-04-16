@@ -111,6 +111,20 @@ public class Polynomial {
 			pos.list.add(it1.next().derivate());
 		return pos;
 	}
+	
+	public boolean equals(Polynomial poly) {
+		Collections.sort(this.list);
+		Collections.sort(poly.list);
+		Iterator<PolyTerm> it1=this.list.iterator();
+		Iterator<PolyTerm> it2=poly.list.iterator();
+		if((poly.isRational && !this.isRational) || (!poly.isRational && this.isRational))
+			throw new IllegalArgumentException("cannot compare two different objects");
+		while(it1.hasNext()) {
+			if(!it1.next().equals(it2.next()))
+				return false;
+		}
+		return true;
+	}
 	public List<PolyTerm> getList(){ return this.list; }
 
 	public boolean getIsRational() {return isRational; }

@@ -61,8 +61,6 @@ public class RealScalar implements Scalar{
 //			return pos.substring(0, pos.indexOf('.'))+ pos.substring(pos.indexOf('.'), pos.indexOf('.')+4);
 		DecimalFormat numberFormat = new DecimalFormat("#.###");
 		String output=numberFormat.format(num);
-		if(output.equals("1"))
-			return "";
 		if(output.equals("-1"))
 			return "-";
 		return output;			

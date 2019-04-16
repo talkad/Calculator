@@ -1,4 +1,5 @@
 package Poly;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,17 +70,18 @@ public class Polynomial {
 
 	
 	public String toString() {
+		Collections.sort(list);
 		Iterator<PolyTerm> it=this.list.iterator();
 		String output="";
 		PolyTerm current;
 		while(it.hasNext()) {
 			current=it.next();
-			if(current.toString().charAt(0)!='0') {
-				if(current.toString().charAt(0)=='-')
-					output=output+current.toString();
-				else
-					output=output+"+"+current.toString();
-			}
+			if(current.toString().charAt(0)=='-')
+				output+=current.toString();
+			else
+				output+="+"+current.toString();
+			
+			counter++;
 		}
 		if(output.charAt(0)=='+')
 			return output.substring(1);

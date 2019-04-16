@@ -3,7 +3,7 @@ import Scalar.RationalScalar;
 import Scalar.RealScalar;
 import Scalar.Scalar;
 
-public class PolyTerm {
+public class PolyTerm implements Comparable<PolyTerm>{
 	private Scalar coefficient;
 	private int exponent;
 	private boolean isRational; //true- it is a rational scalar. real scalar otherwise.
@@ -26,7 +26,6 @@ public class PolyTerm {
 			coefficient+=polyterm.charAt(index);
 			index++;
 		}
-
 		int exp_index=polyterm.indexOf('^');
 		if(exp_index!=-1) {
 			String exponent=polyterm.substring(exp_index+1, polyterm.length());
@@ -51,8 +50,10 @@ public class PolyTerm {
 		}
 
 		if(isRational) {
-			if(!coefficient.contains("/"))
+			if(!coefficient.contains("/")) {
 				numerator=coefficient;
+				divisor="1";
+			}
 			if(coefficient.equals("-"))
 				numerator="-1";
 			if(coefficient.equals("+"))
@@ -63,7 +64,6 @@ public class PolyTerm {
 				divisor="1";
 			this.coefficient=new RationalScalar(Integer.parseInt(numerator), Integer.parseInt(divisor));
 		}
-		
 		else {
 			if(coefficient.length()==0 || coefficient.charAt(coefficient.length()-1)=='+') 
 				coefficient="1";
@@ -134,8 +134,15 @@ public class PolyTerm {
 	}
 	
 	public String toString() {
-		if(this.exponent>=1) 
+		if(this.exponent>=1 && !coefficient.toString().equals("1")) 
 			return this.coefficient.toString()+"x^"+this.exponent;
+		if(this.exponent>=1 && coefficient.toString().equals("1")) 
+			return "x^"+this.exponent;
 		return this.coefficient.toString();
+	}
+
+	@Override
+	public int compareTo(PolyTerm o) {
+		return this.exponent-o.getExponent();
 	}
 }

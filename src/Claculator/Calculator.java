@@ -8,13 +8,16 @@ import Scalar.Scalar;
 public class Calculator {
 	public static void main(String[]args) {
 		Scanner reader=new Scanner(System.in); 
+		System.out.println("Enter 0 to start the program, 5 to exit");
+		int num=reader.nextInt();
+		while(num!=5) {
 		System.out.println("Please select an operation:");
 		System.out.println("1.Addition ");
 		System.out.println("2.Multiplication");
 		System.out.println("3.Evaluation");
 		System.out.println("4.Derivate");
 		System.out.println("5.Exit");
-		int num=reader.nextInt();
+		num=reader.nextInt();
 		if(num==5) {
 			System.out.println("Goodbye friend");
 		}
@@ -102,5 +105,7 @@ public class Calculator {
 					throw new IllegalArgumentException("fail, wrong input inserted!");
 			}
 		}
+		}
+		System.out.println("Goodbye friend");
 	}
 }

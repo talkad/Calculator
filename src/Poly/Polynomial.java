@@ -21,11 +21,14 @@ public class Polynomial {
 		{
 			if((polynom.charAt(i)=='+' || polynom.charAt(i)=='-') &&  i!=0) {
 				currentPoly=polynom.substring(0, i);
-				PolyTerm poly=new PolyTerm(currentPoly,isRational);
-				list.add(poly);
-				int end=polynom.length();
-				polynom=polynom.substring(i,end);
-				i=0;
+				if(currentPoly.charAt(i-1)!='/') { //if there is a minus in the denominator
+					System.out.println("is "+currentPoly.charAt(i-1));
+					PolyTerm poly=new PolyTerm(currentPoly,isRational);
+					list.add(poly);
+					int end=polynom.length();
+					polynom=polynom.substring(i,end);
+					i=0;
+				}
 			}
 			else if(i==polynom.length()-1){
 				currentPoly=polynom.substring(0, i+1);
@@ -170,7 +173,7 @@ public class Polynomial {
 					output+="+"+current.toString();
 			}
 		}
-		if(output.charAt(0)=='+')
+		if(output.length()>0 && output.charAt(0)=='+')
 			return output.substring(1);
 		return output;
 	}

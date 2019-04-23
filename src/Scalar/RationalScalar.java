@@ -81,9 +81,12 @@ public class RationalScalar implements Scalar{
 	} 
 	
 	public String toString() {
+		if(divisor<0) {
+			divisor=divisor*(-1);
+			numerator=numerator*(-1);
+		}
+		
 		if(divisor==1) {
-//			if(numerator==1)
-//				return "";
 			if(numerator==-1)
 				return "-";
 			else
